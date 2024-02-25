@@ -1,0 +1,494 @@
+\documentclass{book}
+\usepackage{graphicx} % Required for inserting images
+
+
+\title{PDE Note}
+\author{Shuo Wang}
+\date{Feb. 2024}
+
+
+\usepackage{alltt}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsopn}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{mathdots}
+\usepackage{mathtools}
+\usepackage{microtype}
+\usepackage{multirow}
+\usepackage{pdflscape}
+\usepackage{pgfplots}
+\usepackage{siunitx}
+\usepackage{slashed}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage{tkz-euclide}
+\usepackage[normalem]{ulem}
+\usepackage[all]{xy}
+\usepackage{imakeidx}
+\usepackage[backend=bibtex]{biblatex}
+\usepackage[T1]{fontenc}
+\usepackage[math]{anttor}
+\usepackage{esint}
+
+\makeindex[intoc, title=Index]
+\indexsetup{othercode={\lhead{\emph{Index}}}}
+\linespread{0.8}
+
+
+
+% Theorems
+\theoremstyle{definition}
+\newtheorem*{axiom}{Axiom}
+\newtheorem*{claim}{Claim}
+\newtheorem*{cor}{Corollary}
+\newtheorem*{conjecture}{Conjecture}
+\newtheorem*{defi}{Definition}
+\newtheorem*{eg}{Example}
+\newtheorem*{ex}{Exercise}
+\newtheorem*{fact}{Fact}
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{notation}{Notation}
+\newtheorem*{prop}{Proposition}
+\newtheorem*{question}{Question}
+\newtheorem*{thm}{Theorem}
+\newtheorem*{assumption}{Assumption}
+\newtheorem*{ppt}{Property}
+\newtheorem{so}{Solution}
+
+\newtheorem*{rmk}{Remark}
+\newtheorem*{exercise}{Exercise}
+
+\newtheorem{nthm}{Theorem}[section]
+\newtheorem{nlemma}[nthm]{Lemma}
+\newtheorem{nprop}[nthm]{Proposition}
+\newtheorem{ncor}[nthm]{Corollary}
+
+
+% Strike through
+\def\st{\bgroup \ULdepth=-.55ex \ULset}
+
+
+\begin{document}
+
+
+\maketitle
+\tableofcontents
+\pagenumbering{roman}
+\newpage
+\section{Introduction}
+This is a lecture note to Partial Difference Equations, the reference of which is Lawrence C. Evans's book: Partial Difference Equations.
+
+
+\chapter{Notation and Important Results}
+\section{Basic Notations}
+\subsection{Notation for Matrices}
+\begin{enumerate}
+    \itemsep=0pt \parskip=0pt  
+    \item We write $A=((a_{ij}))$ to mean $A$ is an $m\times m$ matrix with the $(i,j)$-th entry $a_{ij}$. A diagonal matrix is denoted by $\mathrm{diag}(d_{1},\ldots ,d_{n}) $.       \\ 
+    \item $\mathbb{M}^{m\times m}=\left\{ \mbox{space of real } m \times m \mbox{ matrices} \right\} $. \\ 
+    $\mathbb{S} ^{n}=\left\{ \mbox{space of real, symmetric } n \times n \mbox{ matrices} \right\} $. \\ 
+    \item $\mathrm{tr}A= $ trace of the matrix $A$. \\ 
+    \item $\mathrm{det}A= $ determinant of the  matrix $A$.  \\ 
+    \item $\mathrm{cof}A= $ cofactor matrix of $A$.  \\ 
+    \item $A^{T}=$ transpose of the matrix $A$. \\ 
+    \item If $A=((a_{ij}))$ and $B=((b_{ij}))$ are $m \times m$ matrices, then \begin{align*}
+    A:B&=\sum\limits_{i=1}^{m} \sum\limits_{j=1}^{n}a_{ij}b_{ij}  \\ 
+    \left\lVert A \right\rVert &= (A:A)^{1/2}=(\sum\limits_{i=1}^{m} \sum\limits_{j=1}^{n} a_{ij}^{2}  )^{1/2} 
+     \end{align*} \\
+    \item If $A \in \mathbb{S} ^n$ and $x=(x_{1},\ldots ,x_{n})\in \mathbb{R} ^n$, the corresponding quadratic form is $x \cdot Ax=\sum\limits_{i,j=1}^{n} a_{ij}x_{i}x_{j}$. \\ 
+    \item If $A,B \in \mathbb{S} ^n$, we write \begin{align*}
+    A \geqslant B
+     \end{align*} to mean that $A-B$ is semi-positive definite. In particular, under this notation, \begin{align*}
+     A \geqslant \theta I
+      \end{align*} means $x \cdot Ax \geqslant \theta  \left\lVert x \right\rVert ^2$ for all $x \in \mathbb{R} ^n$. \\           
+    \end{enumerate} 
+
+\subsection{Geometric Notations}
+\begin{enumerate}
+    \itemsep=0pt \parskip=0pt  
+    \item $\mathbb{R} ^n= n$-dimensional real Euclidean spaces, $\mathbb{R} =\mathbb{R} ^1$.   \\ 
+          $\mathbb{S} ^{n-1}=\partial B(0,1)=(n-1)$-dimensional unit sphere in $\mathbb{R} ^n$. \\  
+    \item $e_{i}=(0,\ldots ,0,1,0,\ldots ,0)=i$-th standard coordinate vector. \\
+    \item $\mathbb{R} ^n_{+}=\left\{ x=(x_{1},\ldots ,x_{n})\in \mathbb{R} ^n: x_{n}>0 \right\}= $ open upper half-space. \\ 
+          $\mathbb{R} _{+}=\left\{ x \in \mathbb{R} :x>0 \right\} $. \\ 
+    \item A point in $\mathbb{R} ^{n+1}$ will often be denoted as $(x,t)=(x_{1},\ldots ,x_{n},t)$, and we usually interpret $t=x_{n+1}$ as time. \\ 
+          A point $x \in \mathbb{R} ^n$ will sometimes be written $x=(x ^{\prime} ,x_{n})$ for $x ^{\prime} =(x_{1},\ldots ,x_{n-1})$. \\    
+    \item $U,V$ and $W$ usually denote open subsets of $\mathbb{R} ^n$. We write \begin{align*}
+    V \subset \subset U
+     \end{align*} to mean $V \subset \bar{V} \subset U$ and $\bar{V}$ is compact, and say $V$ is \textbf{compactly contained in $U$}. \\ 
+    \item $U_{T}=U \times (0,T]$. \\ 
+    \item $\Gamma _{T}=\bar{U}_{T}-U_{T}=$ parabolic boundary of $U_{T}$. \\ 
+    \item $\bar{B}(x,r)=\left\{ y \in \mathbb{R} : \left\lVert x-y \right\rVert \leqslant r  \right\} =$ closed ball in $\mathbb{R} ^n$ with center $x$ and radius $r >0$. \\ 
+    \item $B(x,r)=$ (open) ball with center $x$ and radius $r>0$. \\ 
+    \item $C(x,t;r)=\left\{ y \in \mathbb{R} ^n, s \in \mathbb{R} : \left\lVert x-y \right\rVert \leqslant r, t-r^2 \leqslant s \leqslant t \right\} = $ closed cylinder with top center $(x,t)$ and radius $r>0$, and height $r^2$. \\ 
+    \item $\alpha (n)=$ volume of unit ball $B(0,1)$ in $\mathbb{R} ^n=\dfrac{\pi ^{n/2}}{\Gamma (\frac{n}{2}+1 )} $. \\ 
+          $n \alpha (n)=$ surface area of unit sphere $\partial B(0,1)$ in $\mathbb{R} ^{n}$.                          
+    \end{enumerate} 
+
+\subsection{Notation for Functions}
+\begin{enumerate}
+    \itemsep=0pt \parskip=0pt  
+    \item If $u:U \to \mathbb{R} $, we write \begin{align*}
+    u(x)=u(x_{1},\ldots ,x_{n}) (x \in U)
+     \end{align*} We say $u$ is \textbf{smooth} provided $u$ is infinitely differentiable.    \\ 
+    \item If $u,v$ are two functions, we write \begin{align*}
+    u \equiv v
+     \end{align*} to mean that $u$ is identically equal to $v$. We use the notation \begin{align*}
+     u:=v
+      \end{align*} to define $u$ as equaling $v$.\\ 
+    The support of a function $u$ is denoted \begin{align*}
+    \mathrm{spt} u 
+     \end{align*}   \\ 
+    \item $u^{+}=\mathrm{max}(u,0), u^{-}=-\mathrm{min}(u,0), u=u^{+}-u^{-}, \left\lvert u \right\rvert =u^{+}+u^{-}  $. \\ 
+    The \textbf{sign} function is \begin{align*}
+    \mathrm{sgn}(x)= \begin{cases}
+        1,  \quad &\mbox{ if } x>0 \\ 
+        0, \quad  &\mbox{ if } x=0 \\ 
+        -1,\quad  &\mbox{ if } x<0
+    \end{cases} 
+     \end{align*}  \\ 
+     \item If $u: U \to \mathbb{R} ^m$, we write \begin{align*}
+     u(x)=(u^{1}(x),\ldots ,u^{m}(x)) (x \in U)
+      \end{align*}\\ 
+      The function $u^{k}$ is the $k$-th \textbf{component} of $u$. \\ 
+      \item If $\Sigma $ is a smooth $(n-1)$-dimensional surface in $\mathbb{R} ^n$, we write \begin{align*}
+      \int_{\Sigma } fdS
+       \end{align*} for the integral of $f$ over $\Sigma $, with respect to $(n-1)$-dimensional surface measure. If $C$ is a curve in $\mathbb{R} ^n$, we denote by 
+       \begin{align*}
+       \int_{C} fdl
+        \end{align*} the integral of $f$ over $C$ with respect to arclength.  \\ 
+        \item $\fint_{E} f dy:=\dfrac{1}{m(E)} \int_{E} f dm =$ average of $f$ over $E$, provided $m(E)>0$.    \\ 
+        \item For a Lipschitz continuous function $u: U \to \mathbb{R} $, we write \begin{align*}
+        \mathrm{Lip}[u]:= \underset{x,y \in U \atop x \neq y}{\mathrm{sup} } \dfrac{\left\lvert u(x)-u(y) \right\rvert }{\left\lvert x-y \right\rvert }.  
+         \end{align*}  \\ 
+        \item The convolution of the functions $f, g$ is denoted as \begin{align*}
+        f \ast  g
+         \end{align*}  
+    \end{enumerate} 
+
+    \subsection{Notation for Derivatives}
+    Assume $u: U \to \mathbb{R} $, $x \in U$  
+    \begin{enumerate}
+        \itemsep=0pt \parskip=0pt  
+        \item $\partial_{i}=\dfrac{\partial }{\partial x_{i}} $ \\ 
+        $\partial_{i}u(x)=\dfrac{\partial u}{\partial x_{i}}(x)=\underset{h \to 0}{\mathrm{lim} } \dfrac{u(x+he-{i})-u(x)}{h}  $, provided this limit exists.   \\ 
+        \item $\partial_{i,j}u = \dfrac{\partial^2 u}{\partial x_{i}\partial x_{j}}, \partial_{i,j,k}u=\dfrac{\partial^3 u}{\partial x_{i}\partial x_{j}\partial x_{k}},  $ etc. \\ 
+        \item A vector of the form $\alpha =(\alpha _{1},\ldots ,\alpha _{n})$, where each component $\alpha _{i}$ is a nonnegative integer, is called a \textbf{multiindex} of order \begin{align*}
+        \left\lvert \alpha  \right\rvert = \alpha _{1}+\ldots +\alpha _{n}. 
+         \end{align*}    \\ 
+        \item Given a multiindex $\alpha $, define $D^{\alpha }u(x):=\dfrac{\partial^{\left\lvert \alpha  \right\rvert } u}{\partial x_{1}^{\alpha _{1}}\ldots \partial x_{n}^{\alpha _{n}}} =\partial_{1}^{\alpha _{1}}\ldots \partial_{n}^{\alpha _{n}}. $\\ 
+        \item If $k$ is a nonnegative integer, \begin{align*}
+        D^{k}u(x):=\left\{ D^{\alpha }u(x): \left\lvert \alpha  \right\rvert =k \right\}, 
+         \end{align*} is the set of all partial derivatives of order $k$. Assigning some ordering to the various partial derivatives, we can also regard $D^{k}u(x)$ as a point in $\mathbb{R} ^{n^k}$. \begin{align*}
+         \left\lVert D^{k}u \right\rVert = (\sum\limits_{\left\lvert \alpha  \right\rvert =k} \left\lVert D^{\alpha }u \right\rVert ^2 )^{1/2}.
+          \end{align*} \\ 
+        \item (special cases): If $k=1$, we regard the elements of $Du$ as being arranged in a vector:\begin{align*}
+        Du:= (\partial_{1}u,\ldots ,\partial_{n}u)= \mbox{ \textbf{gradient vector} }
+         \end{align*}  
+         Therefore $Du \in \mathbb{R} ^n$. We will sometimes also write \begin{align*}
+         u_{r}:=\dfrac{x}{\left\lVert x \right\rVert }\cdot Du 
+          \end{align*} for the radial derivative of $u$.\\ 
+        If $k=2$, we regard the elements of $D^{2}u$ as being arranged in a matrix: \begin{align*}
+        D^{2}u:=\begin{pmatrix}
+      \partial_{1,1}u&\ldots    & \partial_{1,n}u\\
+      & \ddots & \\
+     \partial_{n,1}u &\ldots &\partial_{n,n}u
+        \end{pmatrix}= \mbox{ \textbf{ Hessian matrix }}
+         \end{align*}  Therefore $D^{2}u \in \mathbb{S} ^n$.   \
+        \begin{align*}
+        \triangle u= \sum\limits_{i=1}^{n} \partial_{i,i}u =\mathrm{div}Du = \mathrm{tr}D^{2}u = \mbox{\textbf{ Laplancian} of }u.  
+         \end{align*} 
+        \end{enumerate} 
+
+\subsection{Function Spaces}
+\begin{enumerate}
+    \itemsep=0pt \parskip=0pt  
+    \item $C(U)=\left\{ u: U \to \mathbb{R} : u \mbox{ continuous} \right\}.  $\\ 
+     $C(\bar{U})=\left\{ u \in C(U): u \mbox{ is uniformly continuous on bounded subsets of } U \right\}. $ \\ 
+     $C^{k}(U)=\left\{ u: U \to \mathbb{R} : u \mbox{ is } k- \mbox{times continuously differentiable} \right\}. $\\ 
+     $C^{k}(\bar{U})=\left\{ u \in C^{k}(U): D^{\alpha }u  \mbox{ continuously extends to } \bar{U} \mbox{ for each multiindex } \alpha , \left\lvert \alpha  \right\rvert \leqslant k  \right\}. $\\ 
+     $C^{\infty }(U)=\left\{ u: U \to \mathbb{R} : u \mbox{ is infinitely differentiable} \right\} = \bigcap\limits_{k=0}^{\infty } C^{k}(U)$. \\ 
+     $C^{\infty }(\bar{U})=\bigcap\limits_{k=0}^{\infty } C^{k}(\bar{U})$.\\ 
+     $C_{c}(U), C_{c}^{k}(U),$ etc, denote these functions in $C(U), C^{k}(U)$, etc. with \textbf{compact support}.\\ 
+     $L^{p}(U)=\left\{ u: U \to \mathbb{R} : u \mbox{ is measurable}, \left\lVert u \right\rVert _{p} <\infty   \right\} $. \\ 
+     $L^{\infty }(U)=\left\{ u: U \to \mathbb{R} : u \mbox{ is measurable}, \left\lVert u \right\rVert _{\infty }<\infty  \right\} $.\\ 
+     $L^{p}_{\mathrm{loc} }=\left\{ u: U \to \mathbb{R} : u \in L^{p}(V) \mbox{ for each } V \subset \subset U \right\} $.        
+    \end{enumerate} 
+
+\subsection{Vector-Valued Function}
+\begin{enumerate}
+    \itemsep=0pt \parskip=0pt  
+    \item If now $m textgreater 1$ and $u: U \to \mathbb{R} $, $u=(u^{1},\ldots ,u^{n})$, we define \begin{align*}
+    D^{\alpha }u=(D^{\alpha }u^{1},\ldots ,D^{\alpha }u^{n})  \mbox{ for each multiindex } \alpha .
+     \end{align*}  
+     Then \begin{align*}
+     D^{k}u=\left\{ D^{\alpha }u: \left\lvert \alpha  \right\rvert =k \right\} 
+      \end{align*} and 
+      \begin{align*}
+      \left\lVert D^{k}u \right\rVert := (\sum\limits_{\left\lvert \alpha  \right\rvert=k } \left\lVert D^{\alpha }u \right\rVert ^2 )^{1/2}
+       \end{align*} \\
+    \item In the special case $k=1$, we write 
+    \begin{align*}
+    Du:=\begin{pmatrix}
+    \partial_{1}u^{1}&\ldots  & \partial_{n}u^{1}\\
+    &\ldots & \\ 
+    \partial_{1}u^{m} &\ldots & \partial_{n}u^{m}
+    \end{pmatrix}= \mbox{ \textbf{ gradient matrix } }.
+     \end{align*}  \\ 
+    \item If $m=n$, we have \begin{align*}
+    \mathrm{div}u:= \mathrm{tr}Du = \sum\limits_{i=1}^{n} \partial_{i}u^{i}= \mbox{ \textbf{ divergence } of } u.    
+     \end{align*}  \\ 
+     \item The space $C(U;\mathbb{R} ^m), L^{p}(U;\mathbb{R} ^{m})$, etc. consists of those functions $u: U \to \mathbb{R} $, $u=(u^{1},\ldots ,u^{m}),$ with $u^{i}\in C(U), L^{p}(U)$, etc.    
+    \end{enumerate} 
+
+\chapter{$L^{p}$ Spaces}
+$L^{p}$ spaces are a class of Banach spaces of functions whose norms are defined in terms of integrals and which generalize the $L^{1}$ spaces. They play a central role in modern analysis.  
+\section{Basic Theory of $L^{p}$ Spaces}
+
+
+\chapter{Sobolev Spaces}
+This chapter mostly develops the theory of Sobolev spaces, which turns out often to be the proper settings in which to apply ideas of functional analysis to glean information concerning PDE. Our overall point of view of eventual
+applications to rather wide classes of PDEs is the following: Our purpose will be to take various specific PDE and to recast them abstractly as operators acting on appropriate linear spaces. We can symbolically write \begin{align*}
+A: X \to Y,
+ \end{align*} 
+where the operator $A$ encodes the structure of the PDEs, including possibly boundary conditions, etc., and $X, Y$ are spaces of functions. The great advantage is that once our PDE problem has been suitably interpreted in this form, we can often employ the general and elegant principles
+of functional analysis to study the solvability of various equations involving $A$. We will later see that the really hard work is not so much the invocation of functional analysis, but rather finding the "right" spaces $X, Y$ and the "right" abstract  operators $A$. Sobolev spaces 
+are designed precisely to make all this work out properly, and so these are usually the proper choices for $X, Y$.
+
+\section{H$\ddot{\mathrm{o}}$lder Spaces}
+Assume $U \subseteq  \mathbb{R} ^n$ is open and $0 < \gamma \leqslant 1$. A function $u: U \to \mathbb{R} $ is \textbf{Lipschitz continuous} if \begin{align}
+\left\lvert u(x)-u(y) \right\rvert \leqslant C \left\lvert x-y \right\rvert  
+ \end{align}  for all $x,y \in U$ and some constant $C$. This relation provides a uniform modulus of continuity which can generalize to functions that are \textbf{H$\ddot{\mathrm{o}}$lder continuous with exponent $\gamma $}:
+ \begin{align}
+ \left\lvert u(x)-u(y) \right\rvert \leqslant C \left\lvert x-y \right\rvert ^{\gamma } 
+  \end{align} for all $x,y \in U$, some $0< \gamma \leqslant 1$, and some constant $C$.   
+
+If $u: U \to \mathbb{R} $ is bounded and continuous, we write \begin{align*}
+\left\lVert u \right\rVert _{C(\bar{U})}:=\underset{x \in U}{\mathrm{sup}} \left\lvert u(x) \right\rvert .  
+ \end{align*}  
+The $\gamma $-th H$\ddot{\mathrm{o}}$lder seminorm of $u: U \to \mathbb{R} $ is \begin{align*}
+\left[ u \right]_{C^{0,\gamma }(\bar{U})} := \underset{x,y \in U \atop x \neg y}{\mathrm{sup} } \left\{ \dfrac{\left\lvert u(x)-u(y) \right\rvert }{\left\lvert x-y \right\rvert }  \right\},  
+ \end{align*} and the $\gamma $-th H$\ddot{\mathrm{o}}$lder norm is \begin{align*}
+ \left\lVert u \right\rVert _{C^{0,\gamma }(\bar{U})}:=\left\lVert u \right\rVert _{C(\bar{U})}+\left[ u \right]_{C^{0,\gamma }(\bar{U})}.  
+  \end{align*}  
+The \textbf{H$\ddot{\mathrm{o}}$lder space} \begin{align*}
+C^{k,\gamma }(\bar{U})
+ \end{align*} consists of all functions $u \in C^{k}(\bar{U})$ for which the norm 
+ \begin{align*}
+ \left\lVert u \right\rVert _{C^{k,\gamma }(\bar{U})}:=\sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k } \left\lVert D^{\alpha }u \right\rVert _{C(\bar{U})}+\sum\limits_{\left\lvert \alpha  \right\rvert =k} \left[ D^{\alpha }u \right]_{C^{0,\gamma }(\bar{U})} 
+  \end{align*} is finite.
+
+$C^{k,\gamma }(\bar{U})$ consists of those functions $u$ that are $k$-times continuously differentiable and whose $k$-th partial derivatives are bounded and H$\ddot{\mathrm{o}}$lder continuous with exponent $\gamma $. Such functions are well-behaved and $C^{k,\gamma }(\bar{U})$ possesses a 
+good mathematical structure:
+\begin{thm}[H$\ddot{\mathrm{o}}$lder Spaces are Function Spaces]
+    $C^{k,\gamma }(\bar{U})$ is a Banach space. 
+\end{thm}       
+
+\begin{proof}
+    We write $\left\lVert \cdot  \right\rVert $ for $\left\lVert \cdot  \right\rVert _{C^{k,\gamma }(\bar{U})} $, for simplicity. 
+    \romannumeral 1: We check that $\left\lVert \cdot  \right\rVert $  is a norm: \begin{enumerate}
+        \itemsep=0pt \parskip=0pt  
+        \item It is obvious that $\left\lVert \cdot  \right\rVert \geqslant 0$. If $\left\lVert u \right\rVert =0$ for some $u$, then $\left\lVert u \right\rVert _{C(\bar{U})}=0$, which implies that $u \equiv 0$ on $\bar{U}$.       \\ 
+        \item $\left\lVert \lambda u \right\rVert = \left\lvert \lambda  \right\rvert \left\lVert u \right\rVert  $ for $\lambda \in \mathbb{R} $ is obvious.  \\ 
+        \item \begin{align*}
+            \left\lVert u+v \right\rVert &= \sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k } \left\lVert D^{\alpha }u+D^{\alpha }v \right\rVert _{C(\bar{U})} + \sum\limits_{\left\lvert \alpha  \right\rvert =k} \left[ D^{\alpha }u+D^{\alpha }v \right]_{C^{0,\gamma }(\bar{U})}  \\
+                                         &\leqslant \sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k } \left\lVert D^{\alpha }u \right\rVert _{C(\bar{U})}+\sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k } \left\lVert D^{\alpha }v \right\rVert _{C(\bar{U})}+ \sum\limits_{\left\lvert \alpha  \right\rvert =k} \underset{x,y \in U \atop x \neg y}{\mathrm{sup} } \left\{ \dfrac{\left\lvert u(x)+v(x)-u(y)-v(y) \right\rvert }{\left\lvert x-y \right\rvert }  \right\} \\ 
+                                         &\leqslant \sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k } \left\lVert D^{\alpha }u \right\rVert _{C(\bar{U})}+\sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k } \left\lVert D^{\alpha }v \right\rVert _{C(\bar{U})} \\ 
+                                         &+ \sum\limits_{\left\lvert \alpha  \right\rvert =k} \underset{x,y \in U \atop x \neg y}{\mathrm{sup} } \left\{ \dfrac{\left\lvert u(x)-u(y) \right\rvert }{\left\lvert x-y \right\rvert }  \right\}+ \sum\limits_{\left\lvert \alpha  \right\rvert =k} \underset{x,y \in U \atop x \neg y}{\mathrm{sup} } \left\{ \dfrac{\left\lvert v(x)-v(y) \right\rvert }{\left\lvert x-y \right\rvert }  \right\}\\ 
+                                         &=\left\lVert u \right\rVert + \left\lVert v \right\rVert 
+        \end{align*} The first inequality follows from the fact that $\left\lVert \cdot  \right\rVert _{C(\bar{U})}$ is a norm. \\ 
+        \item We choose a Cauchy sequence $\left\{ u_{n} \right\} $ from $C^{k,\gamma }(\bar{U})$, then \\ 
+         $\sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k} \left\lVert D^{\alpha }u_{m}-D^{\alpha }u_{n} \right\rVert _{C(\bar{U})} \to 0 $ and $\sum\limits_{\left\lvert \alpha  \right\rvert =k } \left[ D^{\alpha }u \right] _{C^{0,\gamma }(\bar{U})} \to 0 $  as $m,n \to \infty $. \\ 
+         Especially, \begin{align*}
+        \left\lVert u_{m}-u_{n} \right\rVert _{C^{k}(\bar{U})}:=  \underset{\left\lvert \alpha  \right\rvert \leqslant k }{\mathrm{sup} }   \underset{x \in U}{\mathrm{sup} } \left\lvert D^{\alpha }(u_{m}-u_{n})(x) \right\rvert \to 0
+          \end{align*} 
+        Since $(C^{k}(\bar{U}), \left\lVert \cdot  \right\rVert _{C^{k}(\bar{U})})$ is a Banach space, there exist $u \in C^{k}(\bar{U})$ such that $u_{n}\to u$ in $C^{k}(\bar{U})$.    \\ 
+         $\left[ D^{\alpha }u_{n}-D^{\alpha }u \right]_{C^{0,\gamma }(\bar{U})}= \underset{x,y \in U \atop x \neq y}{\mathrm{sup} } \dfrac{\left\lvert (D^{\alpha }u_{n}(x)-D^{\alpha }u(x))-(D^{\alpha }u_{n}(y)-D^{\alpha }u(y)) \right\rvert} {\left\lvert x-y \right\rvert}  \to 0$ as $n \to \infty $, since $D^{\alpha }u_{n}$ converges uniformly to $D^{\alpha }u$. \\ 
+         It remains to show $u \in C^{k,\gamma }(\bar{U})$: for any $x,y \in U, x \neq y$,\\ 
+         \begin{align*}
+            \dfrac{\left\lvert D^{\alpha }u(x)-D^{\alpha }u(y) \right\rvert }{\left\lvert x-y \right\rvert ^{\gamma } }& \leqslant \underset{n \to \infty }{\mathrm{limsup} } \dfrac{\left\lvert D^{\alpha }u_{n}(x)-D^{\alpha }u_{n}(y) \right\rvert }{\left\lvert x-y \right\rvert ^{\gamma } }
+            & \leqslant \underset{n \to \infty }{\mathrm{limsup} } \left[ D^{\alpha }u_{n} \right]_{C^{0,\gamma }(\bar{U})} < \infty 
+          \end{align*} 
+        since each Cauchy sequence is bounded.   
+        \end{enumerate} 
+\end{proof} 
+
+\section{Sobolev Spaces}
+\subsection{Weak Derivatives}
+$\mathcal{C}_{c}^{\infty}(U) $ is the space of infinitely differentiable functions $\phi : U \to \mathbb{R} $, with compact support in $U$. Functions in $\mathcal{C}_{c}^{\infty}(U) $ are also called \textbf{test functions}. 
+
+Suppose $u,v \in L^{1}(U)$ and $\alpha $ is a multiindex. We say that $v$ is the \textbf{$\alpha $-th weak partial derivative} of $u$, and denote \begin{align*}
+D^{\alpha }u=v
+ \end{align*} 
+ if 
+ \begin{align}
+    \int_{U} uD^{\alpha }\phi dm=(-1)^{\left\lvert \alpha  \right\rvert }\int_{U} v \phi dm 
+ \end{align}
+ holds for all test functions $\phi \in \mathcal{C}_{c}^{\infty}(U)$.
+The motivation for the definition of the weak derivative is that for functions in $C^{k}(U)$, the above formula holds for any test functions. We hope to generalize the partial derivatives for functions without enough smoothness, and the above definition becomes natural.
+\begin{lemma}[Uniqueness of the Weak Derivative]
+   A weak $\alpha $-th partial derivative of $u$, if it exists, is uniquely defined up to a set of measure zero.   
+\end{lemma}
+The proof use the fact that $\mathcal{C}_{c}^{\infty}(U) $ is dense in $L^{1}(U)$.  
+
+Now Fix $1 \leqslant p \leqslant \infty $ and let $k$ be a nonnegative integer. The \textbf{Sobolev Space} \begin{align*}
+W^{k,p}(U)
+ \end{align*}   
+consists of all integrable functions $u: U \to \mathbb{R} $ such that for each multiindex $\alpha $ with $\left\lvert \alpha  \right\rvert \leqslant k $, $D^{\alpha }u$ exists in the weak sense, and belongs to $L^{p}(U)$. We identify functions in $W^{k,p}(U)$ which agree a.e. If $p=2$, we usually write \begin{align*}
+H^{k}(U)=W^{k,2}(U) 
+ \end{align*}        
+The norm of $u \in W^{k,p}(U)$ is defined as \begin{align*}
+\left\lVert u \right\rVert _{W^{k,p}(U)}:=\begin{cases}
+    \Big(\sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k } \int_{U} \left\lVert D^{\alpha }u \right\rVert ^p dm \Big)^{1/p}  & 1 \leqslant p < \infty \\ 
+    \sum\limits_{\left\lvert \alpha  \right\rvert \leqslant  k } \mathrm{ess sup}_{U} \left\lvert D^{\alpha }u \right\rvert              & p=\infty     
+\end{cases}
+ \end{align*} 
+$H^{k}(U)$ is a Hilbert space equipped with the scalar product \begin{align*}
+\left\langle u,v \right\rangle _{H^{1}} = \sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k } \left\langle D^{\alpha }u,D^{\alpha }v \right\rangle _{L^{2}}  
+ \end{align*}  The associated norm $\left\lVert u \right\rVert _{H^{1}}=\sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k} \left\lVert D^{\alpha }u \right\rVert _{2}^2 $ is equivalent to the $W^{k,2}$ norm. We use the $W^{k,2}$ norm in $H^{k}(U)$. \\    
+The convergence for a sequence of functions is defined to be the convergence under the norm in $W^{k,p}(U)$. We also write \begin{align*}
+u_{m}\to u \mbox{ in } W^{k,p}_{\mathrm{loc} }(U)
+ \end{align*}  to mean \begin{align*}
+ u_{m} \to u \mbox{ in } W^{k,p}(V)
+  \end{align*} 
+for each $V \subset \subset U$. We denote by \begin{align*}
+W^{k,p}_{0}(U)
+ \end{align*} 
+the closure of $\mathcal{C}_{c}^{\infty}(U) $ in $W^{k,p}(U)$. Thus $u \in W^{k,p}_{0}(U)$ if and only if there exist functions $u_{m}\in \mathcal{C}_{c}^{\infty}(U) $ such that $u_{m} \to u$ in $W^{k,p}(U)$. It is customary to write \begin{align*}
+H_{0}^{k}(U)=W^{k,p}_{0}(U)
+ \end{align*}        
+\begin{rmk}
+ When $n=1$ and $U$ is an open interval in $\mathbb{R} $, $u \in W^{1,p}(U)$ if and only if $u$ equals a.e. an absolutely continuous function whose ordinary derivative (which exsits a.e.) belongs to $L^{P}$.  
+\end{rmk}
+\begin{proof}
+    
+\end{proof} 
+\begin{eg}[Unbounded Function in Sobolev Spaces]
+   We consider the Sobolev space $W^{1,p}(B(0,1))$ and functions of the form $u(x)=\left\lVert x \right\rVert ^{-\alpha },  x \in B(0,1), x \neq 0$.  Note that $u$ is smooth away from $0$, with \begin{align*}
+   \partial_{i}u= \dfrac{-\alpha x_{i}}{\left\lVert x \right\rVert ^{\alpha +2} }, \left\lVert D^{\alpha }u(x) \right\rVert =\dfrac{\left\lvert \alpha  \right\rvert }{\left\lVert x \right\rVert ^{\alpha +1} }  \mbox{ when } x \neq 0
+    \end{align*}    
+Let $\phi \in \mathcal{C}_{c}^{\infty}(B(0,1)) $ and $\varepsilon > 0$, then 
+\begin{align*}
+\int_{B(0,1)-B(0,\varepsilon)} u \partial_{i}\phi dm =- \int_{B(0,1)-B(0,\varepsilon)} \phi \partial_{i} u dm + \int_{\partial B(0,\varepsilon)} u \phi \nu ^{i}dS
+ \end{align*} 
+ If $\alpha +1 < n $, $Du \in L^{1}(B(0,1))$ and \begin{align*}
+ \left\lvert \int_{\partial B(0,\varepsilon)} u \phi \nu ^{i} dS \right\rvert \leqslant \left\lVert \phi  \right\rVert _{\infty } \int_{\partial B(0,\varepsilon)} \varepsilon^{-\alpha } dS \leqslant C \varepsilon^{n-1-\alpha } \to 0 
+  \end{align*}  
+  Thus $\int_{U} u \partial_{i}\phi dm=-\int_{U} \phi \partial_{i}u dm$ for all $\phi \in \mathcal{C}_{c}^{\infty}(B(0,1)) $, provided that $0 \leqslant \alpha < n-1$. $Du \in L^{p}$ if and only if $(\alpha +1)p < n$. We conclude that $u \in W^{k,p}(B(0,1))$ if and only if $\alpha < \dfrac{n-p}{p} $.\\ 
+  Let $\left\{ r_{k} \right\} $ be a countable and dense subset of $U=B(0,1)$. For $(\alpha+1)p<n $, consider \begin{align*}
+  u_{k}(x)=2^{-k}\left\lVert x-r_{k} \right\rVert ^{-\alpha }  \in W^{k,p}(B(0,1))
+   \end{align*} and set \begin{align*}
+   u(x)=\sum\limits_{k=1}^{\infty }u_{k}(x) = \sum\limits_{k=1}^{\infty } 2^{-k} \left\lVert x-r_{k} \right\rVert ^{-\alpha }  
+    \end{align*} 
+   then $u \in W^{1,p}(B(0,1))$ and is unbounded on each open subset of $B(0,1)$ . This example illustrates that functions in a Sobolev space can be unbounded on each open subset of its domain.    
+\end{eg} 
+The next result shows that many of the rules for ordinary derivatives also apply to the weak derivatives.
+\begin{thm}[Properties of Weak Derivatives]
+    Assume $u,v \in W^{k,p}(U), \left\lvert \alpha  \right\rvert \leqslant k $, then \begin{enumerate}
+        \itemsep=0pt \parskip=0pt  
+        \item $D^{\alpha }u \in W^{k-\left\lvert \alpha  \right\rvert,p }(U)$ and $D^{\beta }(D^{\alpha }u)=D^{\alpha }(D^{\beta }u)=D^{\alpha +\beta }u$ for all multiindices $\alpha ,\beta $ with $\left\lvert \alpha  \right\rvert + \left\lvert \beta  \right\rvert \leqslant k  $.    \\ 
+        \item For every $\lambda ,\mu \in \mathbb{R} $, $\lambda u+\mu v \in W^{k,p}(U)$ and $D^{\alpha }(\lambda u+\mu v)=\lambda D^{\alpha }u+\mu D^{\alpha }v$, $\left\lvert \alpha  \right\rvert \leqslant k $. \\ 
+        \item If $V$ is an open subset of $U$, then $u \in W^{k,p}(V)$. \\ 
+        \item IF $\zeta \in \mathcal{C}_{c}^{\infty}(U)  $, then $\zeta u \in W^{k,p}(U)$ and \textbf{Leibniz's rule} holds: \begin{align*}
+        D^{\alpha }(\zeta u)=\sum\limits_{\beta \leqslant \alpha } \binom{\alpha }{\beta }  D^{\beta }\zeta D^{\alpha -\beta }u 
+         \end{align*} where $\binom{\alpha }{\beta }=\dfrac{\alpha !}{\beta !(\alpha -\beta )!} $.       
+        \end{enumerate}  
+\end{thm} 
+In the proof of the last property, we use an identity for multiindices \begin{align*}
+\binom{\beta }{\sigma -\gamma }+\binom{\beta }{\sigma }=\binom{\alpha }{\sigma }
+ \end{align*} 
+The next result shows that Sobolev spaces have a good mathematical structure that make it a function space.
+\begin{thm}[Sobolev Spaces as Function Spaces]
+    For each positive integer $k$ and $1 \leqslant k \leqslant \infty $, the Sobolev space $W^{k,p}(U)$ is a Banach space. 
+\end{thm} 
+\begin{proof}
+    \romannumeral 1: $\left\lVert \cdot  \right\rVert _{W^{k,p}(U)} $ is a norm: It is clear that \begin{align*}
+    \left\lVert \lambda u \right\rVert _{W^{k,p}(U)}=\left\lvert \lambda  \right\rvert \left\lVert u \right\rVert _{W^{k,p}(U)}  
+     \end{align*} and 
+     \begin{align*}
+     \left\lVert u \right\rVert _{W^{k,p}(U)}=0 \mbox{ if and only if } u=0 \mbox{ a.e. } 
+      \end{align*} 
+      Assume $u,v \in W^{k,p}(U)$. If $1 \leqslant p < \infty $, applying Minkowski's inequality twice gives
+      \begin{align*}
+      \left\lVert u+v \right\rVert _{W^{k,p}(U)} &\leqslant \big( \sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k}\left\lVert D^{\alpha }u+D^{\alpha }v \right\rVert _{p}^p \big)^{1/p}  \\ 
+                                                 &\leqslant \big( \sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k}(\left\lVert D^{\alpha }u \right\rVert _{p}+\left\lVert D^{\alpha }v \right\rVert _{p}  )^{p} \big) \\ 
+                                                 &\leqslant \big( \sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k }\left\lVert D^{\alpha }u \right\rVert _{p}^p \big)^{1/p}+ \big( \sum\limits_{\left\lvert \alpha  \right\rvert \leqslant k }\left\lVert D^{\alpha }v \right\rVert _{p}^p \big)^{1/p} \\ 
+                                                 &= \left\lVert u \right\rVert _{W^{k,p}(U)}+\left\lVert v \right\rVert _{W^{k,p}(U)}  
+       \end{align*} 
+    \romannumeral 2: assume $\left\{ u_{m} \right\} $ is a Cauchy sequence in $W^{k,p}(U)$. For each $\left\lvert \alpha  \right\rvert \leqslant k $, $\left\{ D^{\alpha }u_{m} \right\} $ is a Cauchy sequence in $L^{p}(U)$. Then there exists functions $u_{\alpha }\in L^{P}(U)$ such that \begin{align*}
+    D^{\alpha }u_{m} \to u_{\alpha } \mbox{ in } L^{p}(U)
+     \end{align*}  for each $\left\lvert \alpha  \right\rvert \leqslant k $. Especially, 
+     \begin{align*}
+     u_{m} \to u:=u_{(0,\ldots ,0)} \mbox{ in } L^{p}(U)
+      \end{align*}  
+    It remains to check $D^{\alpha }u=u_{\alpha }$, which completes the proof that $u \in W^{k,p}(U)$ and that $W^{k,p}(U)$ is complete. \begin{align*}
+    \int_{U} uD^{\alpha }\phi dm &=\underset{m \to \infty }{\mathrm{lim} } \int_{U} u_{m}D^{\alpha }\phi dm \\ 
+                                 &=\underset{m \to \infty }{\mathrm{lim} } (-1)^{\left\lvert \alpha  \right\rvert }\int_{U} D^{\alpha }u_{m} \phi dm \\ 
+                                 &=(-1)^{\left\lvert \alpha  \right\rvert } \int_{U} u_{\alpha } \phi dm
+     \end{align*} for any $\phi \in \mathcal{C}_{c}^{\infty}(U) $. 
+\end{proof} 
+
+\section{Approximation}
+We need to develop some systematic procedures for approximating a function in a Sobolev space by smooth functions, and the method of mollifiers provides the tool.
+\subsection{Mollifiers: Smoothing by Convolution}
+If $U \in \mathbb{R} ^n$ is open and $\varepsilon >0$, we write \begin{align*}
+U_{\varepsilon}:=\left\{ x \in U: \mathrm{dist}(x,\partial U)>\varepsilon  \right\}=\left\{ x \in U: \bar{B}(x,\varepsilon) \subseteq U \right\} 
+ \end{align*}   
+Now define a smooth function $\eta \in C^{\infty }(U)$ on $U$ by \begin{align*}
+\eta (x):=\begin{cases}
+    C \mathrm{exp}(\dfrac{1}{\left\lVert x \right\rVert ^2-1 } ), & \left\lVert x \right\rVert <1 \\ 
+    0,                                                            & \left\lVert x \right\rVert \geqslant 1  
+\end{cases} 
+ \end{align*} the constant $C$ is selected to normalize $\eta $: $\int_{\mathbb{R} ^n} \eta dm =1$.   
+Then for each $\varepsilon>0$, set \begin{align*}
+\eta _{\varepsilon}(x):= \dfrac{1}{\varepsilon^{n}} \eta(\dfrac{x}{\varepsilon} ) 
+ \end{align*}  
+We call $\eta $ the \textbf{mollifier}. The function $\eta _{\varepsilon}$ are $C^{\infty }$ and satisfy \begin{align*}
+\int_{\mathbb{R} ^{n}} \eta _{\varepsilon} dm=1, \mathrm{spt}(\eta _{\varepsilon}) \subseteq \bar{B}(0,\varepsilon). 
+ \end{align*}    
+
+ If $f \in L^{1}_{\mathrm{loc} }(U)$, we define its mollification \begin{align*}
+ f^{\varepsilon}:= \eta _{\varepsilon} \ast f \mbox{ in } U_{\varepsilon}
+  \end{align*}  
+That is, \begin{align*}
+f6{\varepsilon}(x)= \int_{U} \eta _{\varepsilon}(x-y)f(y)dy = \int_{\bar{B}(0,\varepsilon)} \eta _{\varepsilon}(y)f(x-y) dy
+ \end{align*} for $x \in U_{\varepsilon}$. 
+ \subsection{Convolution}
+ Since the mollification comes from the convolution, we will pause for a while to introduce the convolution:
+ Let $f, g$ be measurable functions on $\mathbb{R} ^n$. The \textbf{convolution} of $f, g$ is the function $f\ast g$ defined by \begin{align*}
+ f\ast g(x)=\int f(x-y)g(y)dy
+  \end{align*} for all $x$ such that the integral exists. We now need the measurability of $K$ defined by $K(x,y)=f(x-y)$ on $\mathbb{R} ^{n}\times \mathbb{R} ^{n}$ for a measurable function $f$. We see $K=f \circ s$ where $s(x,y)=x-y$; since $s$ is continuous, $K$ is Borel measurable if $f$ is. 
+  Since for each Lebesgue measurable function $\tilde{f}$ on $\mathbb{R} ^n$, there exists a Borel measurable function $f$ on $\mathbb{R} ^n$  such that $f=\tilde{f}$ $m-$ a.e. x for the Lebesgue measure on $\mathbb{R} ^n$, we can thus assume in the definition of the convolution that $K: (x,y)\mapsto f(x-y)$ is Lebesgue measurable on $\mathbb{R} ^n\times \mathbb{R} ^n$. 
+
+  \begin{prop}{Properties of the Convolution}
+    Assuming all the integrals in question exist: \begin{enumerate}
+        \itemsep=0pt \parskip=0pt  
+        \item $f \ast g=g \ast f$.  \\ 
+        \item $(f \ast g)\ast h=f \ast (g \ast h)$. \\ 
+        \item For $z \in \mathbb{R} ^n$, $\tau_{z}(f \ast g)=(\tau _{z}f)\ast g=f \ast (\tau _{z}g)$. \\ 
+        \item If $A$ is the closure of $\left\{ x+y: x \in \mathrm{spt}(f), y \in \mathrm{spt}(g) \right\} $, then $\mathrm{spt}(f \ast g) \subseteq A$.      
+        \end{enumerate} 
+  \end{prop} 
+\begin{thm}[Young's Inequality]
+    If $f \in L^{1}$ and $g \in L^{p}$ with $1 \leqslant p \leqslant \infty $, then $f \ast g(x)$ exists a.e. x, $f \ast g \in L^{p}$, and $\left\lVert f \ast g \right\rVert _{p} \leqslant \left\lVert f \right\rVert _{1}\left\lVert g \right\rVert _{p}  $.      
+\end{thm}
+\begin{proof}
+    We use the Minkowski's inequality for integrals:
+    \begin{align*}
+    \left\lVert f \ast g \right\rVert _{p} = \left\lVert \int f(y)g(\cdot -y) dy \right\rVert _{p} \leqslant \int \left\lvert f(y) \right\rvert \left\lVert \tau _{y}g \right\rVert _{p}dy =\left\lVert f \right\rVert _{1} \left\lVert g \right\rVert_{p}   
+     \end{align*} 
+\end{proof} 
+\begin{prop}
+    If $p$ and $q$ are conjugate exponents, $f \in L^{p}$, $g \in L^{q}$, then $f \ast g(x)$ exists for every $x$, $f \ast g$ is bounded and uniformly continuous, and $\left\lVert f \ast g \right\rVert_{u} \leqslant \left\lVert f \right\rVert_{p}\left\lVert g \right\rVert_{q}  $. If $$         
+\end{prop} 
+
+
+
+\end{document}
